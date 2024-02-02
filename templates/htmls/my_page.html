@@ -1,0 +1,156 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+    {% if my_page %}
+
+    <div class="user_detail">
+
+        <div class="my_page_div">
+            <p class="bgc">Your posts ( {{ visible_posts_count }} / {{ posts_count }} ) : </p>
+                {% for post in posts %}
+                    <p><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></p>
+                {% endfor %}
+                {% if posts %}<p><a href="{% url 'my_posts' %}">> See all</a></p>{% endif %}
+        </div>
+
+        <div class="my_page_div">
+            <p class="bgc">Your favorite posts ( {{ visible_likes_count }} / {{ likes_count }} ) : </p>
+                {% for like in likes %}
+                    {% if like.post.hide %}
+                        <p>-- not available now --</p>
+                    {% else %}
+                        <p><a href="{% url 'post_detail' pk=like.post.pk %}">{{ like.post.title }}</a></p>
+                    {% endif %}
+                {% endfor %}
+                {% if likes %}<p><a href="{% url 'my_likes' %}">> See all</a></p>{% endif %}
+        </div>
+
+        <div class="my_page_div">
+            <p class="bgc">Your records ( {{ visible_records_count }} / {{ records_count }} ) : </p>
+                {% for record in records %}
+                    <p><a href="{% url 'record_detail' pk=record.pk %}">[ Record. {{ record.song.title }} ]</a></p>
+                {% endfor %}
+                {% if records %}<p><a href="{% url 'my_records' %}">> See all</a></p>{% endif %}
+        </div>
+
+        <div class="my_page_div">
+            <p class="bgc">Your Info : </p>
+            <p>name : {{ user.username }}</p>
+            <p>joined at : {{ user.date_joined|date:"Y-m-d" }}</p>
+            <p>self intro :</p>
+            <p>{{ user.description }}</p>
+            {% if user.is_authenticated and request.user.id == user.id %}
+            <p><a href="{% url 'user_update' %}">> Update your info</a></p>
+            {% endif %}
+        </div>
+
+        <div class="edit">
+            <p class="bgc">Edit</p>
+            <p><a href="{% url 'post_create' %}">> PostCreate</a></p>
+            <p><a href="{% url 'record_create' %}">> RecordCreate</a></p>
+        </div>
+
+    </div>
+
+    {% elif my_posts %}
+
+    <div class="post_index">
+
+        <p class="bgc">Your posts ( {{ visible_posts_count }} / {{ posts_count }} ) : </p>
+
+        {% for post in posts %}
+            <div class="post">
+                {% if post.image %}
+                    <div class="image"><img src="{{ post.image.url }}" alt=""></div>
+                {% else %}
+                    <div class="image"></div>
+                {% endif %}
+                <div class="title_and_text">
+                    <p class="bgc"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+                        {% if post.created_at > recent %} ( new! ){% elif post.updated_at > recent %} ( Updated! ){% endif %}</p>
+                    <p>{{ post.text|truncatewords:30 }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    
+        {% include 'htmls/basic_pagination.html' %}
+
+        <div class="return">
+            <p class="bgc">Return</p>
+            <p><a href="{% url 'my_page' %}">> My page</a></p>
+        </div>
+        <div class="edit">
+            <p class="bgc">Edit</p>
+            <p><a href="{% url 'post_create' %}">> PostCreate</a></p>
+        </div>
+    
+    </div>
+
+    {% elif my_likes %}
+
+    <div class="post_index">
+
+        <p class="bgc">Your favorite posts ( {{ visible_likes_count }} / {{ likes_count }} ) : </p>
+
+        {% for like in likes %}
+            {% if like.post.hide %}
+                <div class="post">
+                    <div class="image"></div>
+                    <div class="title_and_text">
+                        <p class="bgc"> -- not available now -- </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="post">
+                    {% if like.post.image %}
+                        <div class="image"><img src="{{ like.post.image.url }}" alt=""></div>
+                    {% else %}
+                        <div class="image"></div>
+                    {% endif %}
+                    <div class="title_and_text">
+                        <p class="bgc"><a href="{% url 'post_detail' pk=like.post.pk %}">{{ like.post.title }}</a></p>
+                        <p>{{ like.post.text|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {% include 'htmls/basic_pagination.html' %}
+
+        <div class="return">
+            <p class="bgc">Return</p>
+            <p><a href="{% url 'my_page' %}">> My page</a></p>
+        </div>
+
+    </div>
+
+    {% elif my_records %}
+
+    <div class="record_index">
+
+        <p class="bgc">Your records ( {{ visible_records_count }} / {{ records_count }} ) : </p>
+
+        {% for record in records %}
+        <div class="record">
+            <p><a href="{% url 'record_detail' pk=record.pk %}">[ Record. {{ record.song.title }} ]</a></p>
+            <p>( {{ record.date_start|date:"Y-m-d" }} - {{ record.date_end|date:"Y-m-d" }}, {{ record.days }} days )</p>
+        </div>
+        {% endfor %}
+    
+        {% include 'htmls/basic_pagination.html' %}
+
+        <div class="return">
+            <p class="bgc">Return</p>
+            <p><a href="{% url 'my_page' %}">> My page</a></p>
+        </div>
+        <div class="edit">
+            <p class="bgc">Edit</p>
+            <p><a href="{% url 'record_create' %}">> RecordCreate</a></p>
+        </div>
+    
+    </div>
+
+    {% endif %}
+
+{% endblock %}

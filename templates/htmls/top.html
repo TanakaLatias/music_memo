@@ -1,0 +1,35 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="top">
+
+    <p class="bold">Welcome back{% if request.user.is_authenticated %}, {{ request.user.username }}{% endif %} :)</p>
+
+    {% if not request.user.is_authenticated %}
+    <div class="direction">
+        <p class="bgc">Jump to...</p>
+        <p><a href="{% url 'song_index' %}">> Song Index</a></p>
+        <p><a href="{% url 'post_index' %}">> Post Index</a></p>
+        <p><a href="{% url 'record_index' %}">> Record Index</a></p>
+    </div>
+    <div class="direction">
+        <p class="bgc">If you have an account...</p>
+        <p><a href="{% url 'login' %}">> Log in and go to your page</a></p>
+    </div>
+    {% else %}
+    <div class="return">
+        <p class="bgc">Jump to...</p>
+        <p><a href="{% url 'my_page' %}">> My page</a></p>
+    </div>
+    <div class="direction">
+        <p class="bgc">or...</p>
+        <p><a href="{% url 'song_index' %}">> Song Index</a></p>
+        <p><a href="{% url 'post_index' %}">> Post Index</a></p>
+        <p><a href="{% url 'record_index' %}">> Record Index</a></p>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <title>Music Memo</title>
+</head>
+<body>
+
+    <header>
+        <p id="title" class="bold">Music Memo</p>
+            <nav id="nav">
+                <ul>
+                    <li><a href="{% url 'top' %}" class="bold">Music Memo</a></li>
+                    {% if request.user.is_authenticated %}
+                    <li><a href="{% url 'my_page' %}">My Page</a></li>
+                    <li><a href="{% url 'logout' %}">Log Out</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">Log In</a></li>
+                    <li><a href="{% url 'user_create' %}">Register</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'song_index' %}">Song Index</a></li>
+                    <li><a href="{% url 'post_index' %}">Post Index</a></li>
+                    <li><a href="{% url 'record_index' %}">Record Index</a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <main>
+
+        <div class="main">{% block main %}{% endblock %}</div>
+
+        <div class="side">
+            <ul>
+                <p class="bold bgc">new songs</p>
+                {% for song in side_new_songs %}
+                    <p><a href="{% url 'song_detail_post' pk=song.pk %}">{{ song.title }}</a></p>
+                {% endfor %}
+            </ul>
+            <ul>
+                <p class="bold bgc">new posts</p>
+                {% for post in side_new_posts %}
+                    <p><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></p>
+                {% endfor %}
+            </ul>
+            <ul>
+                <p class="bold bgc">new records</p>
+                {% for record in side_new_records %}
+                    <p><a href="{% url 'record_detail' pk=record.pk %}">{{ record.song.title }} ({{ record.days }} days)</a></p>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>Special Thanks</p>
+        <p>To Keisuke Ino San</p>
+        <p>To playground Sama</p>
+        <p>To my loyal loving canine best friend, Chomi :)</p>
+    </footer>
+
+    <script>
+        function ham() {
+            document.getElementById('nav').classList.toggle('in');
+        }
+        document.getElementById('title').addEventListener('click' , function () {
+            ham();
+        } );
+    </script>
+
+</body>
+
+</html>

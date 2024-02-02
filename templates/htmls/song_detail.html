@@ -1,0 +1,62 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="song_detail">
+
+    <div class="song_info">
+        <p class="bgc">Song's info</p>
+        <p>title : {{ song.title }}</p>
+        <p>singer : {{ song.singer }}</p>
+        <p>song published at : {{ song.song_published_at|date:"Y-m-d" }}</p>
+    </div>
+
+    {% if song_detail_post %}
+    
+    <div class="song_detail_post_index">
+        <p class="bgc">Posts for this song</p>
+        {% for post in posts %}
+            <p><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></p>
+        {% endfor %}
+        {% if posts %}{% include 'htmls/basic_pagination.html' %}{% else %}<p>None yet.</p>{% endif %}
+    </div>
+
+    {% else %}
+
+    <div class="song_detail_record_index">
+        <p class="bgc">Records for this song</p>
+        {% for record in records %}
+            <p><a href="{% url 'record_detail' pk=record.pk %}">[ Record. </a> {{ record.date_start|date:"Y-m-d" }} - {{ record.date_end|date:"Y-m-d" }} {% if record.days %}({{ record.days }}days){% endif %} ]</p>
+        {% endfor %}
+        {% if records %}{% include 'htmls/basic_pagination.html' %}{% else %}<p>None yet.</p>{% endif %}
+    </div>
+
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div class="edit">
+        <p class="bgc">Edit</p>
+        <p><a href="{% url 'song_update' pk=song.pk %}">> Song Info Update</a></p>
+        {% if your_post %}
+            <p><a href="{% url 'post_detail' pk=your_post.pk %}">> Edit Your Post ({{ your_post.title }})</a></p>
+        {% elif song_detail_post %}
+            <p><a href="{% url 'song_detail_post_create' pk=song.pk %}">> Post Create</a></p>
+        {% else %}
+            {% for record in your_records %}
+            <p><a href="{% url 'record_detail' pk=record.pk %}">[ Your Record. </a>{{ record.date_start|date:"Y-m-d" }} - {{ record.date_end|date:"Y-m-d" }} ]</p>
+            {% endfor %}
+            <p><a href="{% url 'song_detail_record_create' pk=song.pk %}">> Record Create</a></p>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <div class="return">
+        <p class="bgc">Return</p>
+        <p><a href="{% url 'song_index' %}">> Song Index</a></p>
+        <p><a href="{% url 'song_detail_post' pk=song.pk %}">> Song Detail Post</a></p>
+        <p><a href="{% url 'song_detail_record' pk=song.pk %}">> Song Detail Record</a></p>
+    </div>
+
+</div>
+
+{% endblock %}

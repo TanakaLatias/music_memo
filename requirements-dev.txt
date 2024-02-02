@@ -1,0 +1,17 @@
+Django==3.2.21
+Pillow
+dj-database-url==2.1.0
+psycopg2-binary==2.9.7
+whitenoise==6.5.0
+gunicorn==21.2.0
+Brotli==1.0.9
+python-dotenv
+asgiref
+dj-static
+django-environ
+django-model-utils
+python-decouple
+sqlparse
+static3
+mysqlclient
+pipenv

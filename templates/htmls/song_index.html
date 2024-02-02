@@ -1,0 +1,61 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="song_index">
+
+    <p class="bgc">Song Index</p>
+
+    {% if song_search %}
+
+        <p class="bold">Search Results for "{{ search_query }}"</p>
+        {% for song in search_results %}
+            <div class="song">
+                <p><a href="{% url 'song_detail_post' pk=song.pk %}">{{ song.title }}</a> by {{ song.singer }}</p>
+            </div>
+        {% endfor %}
+
+    {% else %}
+
+        {% if index %}
+        <form method="get" action="{% url 'song_search' %}">
+            <input type="text" name="q">
+            <button type="submit">Search</button>
+        </form>
+        {% endif %}
+
+        {% for song in songs %}
+
+            <div class="song">
+                {% if index %} 
+                <p><a href="{% url 'song_detail_post' pk=song.pk %}">{{ song.title }}</a></p>
+                {% elif index_posted %}
+                <p><a href="{% url 'song_detail_post' pk=song.pk %}">{{ song.title }}</a> ( {{ song.visible_post_count }} posts )</p>
+                {% elif index_recorded %}
+                <p><a href="{% url 'song_detail_record' pk=song.pk %}">{{ song.title }}</a> ( {{ song.visible_record_count }} records )</p>
+                {% endif %}
+            </div>
+
+        {% endfor %}
+
+        {% include 'htmls/basic_pagination.html' %}
+
+    {% endif %}
+
+    {% if request.user.is_authenticated %}
+    <div class="edit">
+        <p class="bgc">Edit</p>
+        <p><a href="{% url 'song_create' %}">> Song Create</a></p>
+    </div>
+    {% endif %}
+
+    <div class="return">
+        <p class="bgc">Return</p>
+        <p><a href="{% url 'song_index' %}">> Song Index</a></p>
+        <p><a href="{% url 'song_index_posted' %}">> Song Index Posted</a></p>
+        <p><a href="{% url 'song_index_recorded' %}">> Song Index Recorded</a></p>
+    </div>
+
+</div>
+
+{% endblock %}

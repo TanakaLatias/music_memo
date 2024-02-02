@@ -1,0 +1,67 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="post_index">
+
+    {% if post_search %}
+
+        <p class="bold">Search Results for "{{ search_query }}"</p>
+        {% for post in search_results %}
+            <div class="post">
+                {% if post.image %}
+                    <div class="image"><img src="{{ post.image.url }}" alt=""></div>
+                {% else %}
+                    <div class="image"></div>
+                {% endif %}
+                <div class="title_and_text">
+                    <p class="bgc"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+                        {% if post.created_at > recent %} ( new! ){% elif post.updated_at > recent %} ( updated! ){% endif %}</p>
+                    <p>{{ post.text|truncatewords:30 }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% else %}
+
+        <form method="get" action="{% url 'post_search' %}">
+            <input type="text" name="q">
+            <button type="submit">Search</button>
+        </form>
+
+        {% for post in posts %}
+
+            <div class="post">
+                {% if post.image %}
+                    <div class="image"><img src="{{ post.image.url }}" alt=""></div>
+                {% else %}
+                    <div class="image"></div>
+                {% endif %}
+                <div class="title_and_text">
+                    <p class="bgc"><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+                        {% if post.created_at > recent %} ( new! ){% elif post.updated_at > recent %} ( updated! ){% endif %}</p>
+                    <p>{{ post.text|truncatewords:30 }}</p>
+                </div>
+            </div>
+
+        {% endfor %}
+
+        {% include 'htmls/basic_pagination.html' %}
+
+    {% endif %}
+
+    <div class="return">
+        <p class="bgc">Return</p>
+        <p><a href="{% url 'post_index' %}">> PostIndex</a></p>
+    </div>
+
+    {% if request.user.is_authenticated %}
+    <div class="edit">
+        <p class="bgc">Edit</p>
+        <p><a href="{% url 'post_create' %}">> PostCreate</a></p>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="post_detail">
+
+    <div class="post_info">
+        <p class="bgc">title : </p>
+        <p>{{ post.title }}</p>
+        <p class="bgc">text : </p>
+        <p>{{ post.text }}</p>
+        {% if post.image %}
+        <p class="bgc">image : </p>
+        <div class="img"><img src="{{ post.image.url }}" alt="image"></div>
+        {% endif %}
+        <p class="bgc">user : </p>
+        <p><a href="{% url 'user_detail' pk=post.user.id %}">{{ post.user.username }}</a></p>
+        <p class="bgc">song : </p>
+        <p><a href="{% url 'song_detail_post' pk=post.song.pk %}">{{ post.song.title }}</a></p>
+        <p class="bgc">created_at & updated_at : </p>
+        <p>{{ post.created_at|date:"Y-m-d" }} / {{ post.updated_at|date:"Y-m-d" }}</p>
+        <p class="bgc">hide : </p>
+        <p>{{ post.hide }}</p>
+    </div>
+
+    <div class="like">
+        <p class="bgc">Like</p>
+        <p>♡ {{ liked_count }}</p>
+        {% if user.is_authenticated %}
+            {% if liked %}
+            <form method="get" action="{% url 'like_delete' pk=post.pk %}">{% csrf_token %}
+                <button type="submit">-♡</button>
+            </form>
+            {% else %}
+            <form method="post" action="{% url 'like_create' pk=post.pk %}">{% csrf_token %}
+                <button type="submit">+♡</button>
+            </form>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    {% if post.user == request.user %}
+    <div class="edit">
+        <p class="bgc">Edit</p>
+        <p><a href="{% url 'post_update' pk=post.pk %}">> PostUpdate</a></p>
+        <p><a href="{% url 'post_delete' pk=post.pk %}">> PostDelete</a></p>
+    </div>
+    {% endif %}
+
+    <div class="return">
+        <p class="bgc">Return</p>
+        {% if request.user.is_authenticated %}
+        <p><a href="{% url 'my_page' %}">> My page</a></p>
+        {% endif %}
+        <p><a href="{% url 'post_index' %}">> PostIndex</a></p>
+    </div>
+
+</div>
+
+{% endblock %}

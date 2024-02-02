@@ -1,0 +1,266 @@
+* {
+    font-size: 20px;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    border-bottom: 1px solid black;
+    color: black;
+    text-decoration: none;
+}
+a:visited {
+    color: black;
+}
+img {
+    width: 100%;
+}
+li {
+    list-style: none;
+}
+p {
+    margin-bottom: 10px;
+}
+.bold {
+    font-weight: bold;
+}
+.bgc {
+    background-color: silver;
+}
+
+/* basics */
+header {
+    background: gray;
+    height: 80px;
+    position: fixed;
+    text-align: center;
+    width: 100%;
+}
+header nav {
+    height: 100%;
+    width: 100%;
+}
+header nav ul {
+    display: flex;
+    height: 100%;
+    margin: auto;
+    width: 80%;
+}
+header ul li {
+    margin: auto;
+}
+header ul li a {
+    border-bottom: 1px solid white;
+    color: white;
+    padding: 5px 30px;
+}
+header ul li a:visited {
+    border-bottom: 1px solid white;
+    color: white;
+}
+.main, .side {
+    float: left;
+    margin-top: 80px;
+    min-height: 100vh;
+}
+.side {
+    border-left: 1px solid black;
+    width: 32%;
+    padding: 10px 0;
+}
+.main {
+    padding: 30px 0;
+    width: 67%;
+}
+.side ul {
+    padding: 5px 0;
+}
+.side ul p {
+    margin: 15px 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+footer {
+    background: black;
+    float: left;
+    height: 250px;
+    width: 100%;
+}
+footer p {
+    color: white;
+    margin: 15px 30px;
+}
+.form {
+    margin: 10px 0;
+    width: 100%;
+}
+input {
+    margin-top: 10px;
+}
+.direction, .edit, .like, .pagination, .return {
+    margin: 30px 0;
+}
+.pagination p {
+    display: inline-block;
+}
+.delete, .error, .form_div, .top {
+    margin: 60px auto;
+    width: 85%;
+}
+
+/* details */
+.post_index, .song_index, .record_index, .post_detail, .song_detail, .record_detail, .user_detail {
+    margin: 30px auto;
+    width: 85%;
+}
+.song_detail_post_index, .song_detail_record_index, .song_info, .post_info {
+    margin: 30px 0;
+    width: 100%;
+}
+.my_page_div {
+    margin-top: 40px;
+}
+.song, .record {
+    margin: 10px auto;
+    width: 100%;
+}
+.post {
+    display: flex;
+    margin: 40px auto;
+    width: 100%;
+}
+.image {
+    aspect-ratio: 1 / 1;
+    background-color: gray;
+    border: 1px solid black;
+    display: flex;
+    width: 12%;
+}
+.title_and_text {
+    margin-left: 10px;
+    width: 87%;
+}
+
+#title {
+    display: none;
+}
+
+@media (max-width: 835px) {
+
+    * {
+        font-size: 16px;
+    }
+    p {
+        margin-bottom: 8px;
+    }
+    #title {
+        border-bottom: 1px solid white;
+        color: white;
+        display: block;
+        font-size: 25px;
+        line-height: 80px;
+        margin-bottom: 0;
+    }
+
+    /* basics */
+    .side {
+        border-left: none;
+        display: flex;
+        margin-top: 0px;
+        min-height: 0;
+        width: 100%;
+    }
+    .main {
+        border-bottom: 1px solid black;
+        min-height: 70vh;
+        padding: 25px 0;
+        width: 100%;
+    }
+    .side ul {
+        width: 32.5%;
+    }
+    #nav {
+        background-color: gray;
+        left: -100%;
+        margin-top: 0px;
+        position: fixed;
+        transition: 1s;
+        width: 100%;
+    }
+    #nav ul {        
+        display: flex;
+        flex-direction: column;
+        height: 70%;
+        width: 70%;
+    }
+    #nav ul li {
+        display: block;
+        transition: 1s;
+    }
+    .in {
+        transform: translateX(100%);
+        background: white;
+    }
+    .delete, .error, .form_div, .top {
+        width: 80%;
+        margin: 40px auto;
+    }
+
+}
+
+@media (max-width: 450px) {
+    * {
+        font-size: 12px;
+    }
+    p {
+        margin-bottom: 5px;
+    }
+    #title {
+        line-height: 70px;
+    }
+    .delete, .error, .form_div, .top {
+        width: 90%;
+        margin: 20px auto;
+    }
+    /* base */
+    header {
+        height: 70px;
+    }
+    .side {
+        display: block;
+    }
+    .main {
+        padding: 20px 0;
+        min-height: 60vh;
+    }
+    .side ul {
+        width: 100%;
+    }
+    .side ul p {
+        margin: 5px 10px;
+    }
+    #nav ul {        
+        height: 60%;
+    }
+    footer p {
+        margin: 5px 10px;
+    }
+    .post_index, .song_index, .record_index, .post_detail, .song_detail, .record_detail, .user_detail {
+        margin: 15px auto;
+        width: 93%;
+    }
+    .song_detail_post_index, .song_detail_record_index, .song_info, .post_info {
+        margin: 15px 0;
+    }
+    .my_page_div {
+        margin-top: 30px;
+    }
+    .post {
+        margin: 20px auto;
+    }
+    .title_and_text {
+        margin-left: 5px;
+    }
+
+}

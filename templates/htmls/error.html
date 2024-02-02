@@ -1,0 +1,21 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="error">
+    <h1>Something went wrong.</h1>
+    <p>If you need more information, feel free to contact me.</p>
+    {% if user.is_authenticated %}
+    <div class="return">
+        <p class="bgc">Return</p>
+        <p><a href="{% url 'my_page' %}">> My Page</a></p>
+    </div>
+    {% else %}
+    <div class="return">
+        <p class="bgc">Return</p>
+        <p><a href="{% url 'top' %}">> Top</a></p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

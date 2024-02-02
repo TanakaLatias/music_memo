@@ -1,0 +1,38 @@
+{% extends 'htmls/base.html' %}
+
+{% block main %}
+
+<div class="record_detail">
+
+    <div class="record_info">
+        <p class="bgc">song : </p>
+        <p><a href="{% url 'song_detail_record' pk=record.song.pk %}">{{ record.song }}</a></p>
+        <p class="bgc">user : </p>
+        <p><a href="{% url 'user_detail' pk=record.user.id %}">{{ record.user.username }}</a></p>
+        <p class="bgc">Date : </p>
+        <p>{{ record.date_start|date:"Y-m-d" }} - {{ record.date_end|date:"Y-m-d" }} {% if record.days %}({{ record.days }}days){% endif %}</p>
+        <p class="bgc">Memo : </p>
+        <p>{{ record.memo }}</p>
+        <p class="bgc">hide : </p>
+        <p>{{ record.hide }}</p>
+    </div>
+
+    {% if record.user == request.user %}
+    <div class="edit">
+        <p class="bgc">Edit</p>
+        <p><a href="{% url 'record_update' pk=record.pk %}">> RecordUpdate</a></p>
+        <p><a href="{% url 'record_delete' pk=record.pk %}">> RecordDelete</a></p>
+    </div>
+    {% endif %}
+
+    <div class="return">
+        <p class="bgc">Return</p>
+        {% if request.user.is_authenticated %}
+        <p><a href="{% url 'my_page' %}">> My page</a></p>
+        {% endif %}
+        <p><a href="{% url 'record_index' %}">> RecordIndex</a></p>
+    </div>
+
+</div>
+
+{% endblock %}

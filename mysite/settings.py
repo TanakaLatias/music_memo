@@ -83,13 +83,21 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': env('DATABASE_URL'),
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+"""
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'music_memo',
         'USER': 'root',  
         'PASSWORD': env('PASSWORD'),  
     }
 }
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

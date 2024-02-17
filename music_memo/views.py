@@ -13,7 +13,6 @@ from .models import User, Song, Post, Like, Record
 from django.db.models import Count, Q
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db import IntegrityError
-from collections import defaultdict
 
 class UserCheckMixin:
     def get(self, request, *args, **kwargs):
